@@ -40,4 +40,10 @@ sapply(dataset_salary,function(x) sum(is.na(x)))
 par(mfrow = c(1,1))
 barplot(table(dataset_salary$income), main = "Frequency of Having Income over 50k")
 
+#decomposition of variables 
+hist(dataset_salary$age)
+hist(dataset_salary$`educational-num`)
+hist(dataset_salary$`hours-per-week`)
+hist(dataset_salary$`capital-gain`)
+hist(dataset_salary$`capital-loss`)
 
