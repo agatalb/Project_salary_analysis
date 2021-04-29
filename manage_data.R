@@ -15,6 +15,9 @@ summary(NewData)
 #structure of the data
 str(NewData)
 
+#number of rows
+nrow(NewData)
+
 ###### THE DATA CLEANING PROCESS #####
 
 # chr -> factor/numeric variable
@@ -35,10 +38,35 @@ NewData$TWO_ROK<- as.numeric(NewData$TWO_ROK)
 sapply(NewData,function(x) sum(is.na(x)))
 # 0 NA's
 
-# let us see what is the distribution of the income indicator in the dataset.
+# let us see what is the distribution of the chosen variables
 
+#WOJ
 par(mfrow = c(1,1))
-plot(table(NewData$TWO_ROK), main = "SALARY")
+barplot(table(NewData$WOJ), main = "Distribution of the WOJ variable")
+
+#B2
+par(mfrow = c(1,1))
+barplot(table(NewData$B2), main = "Distribution of the B2 variable")
+
+#B4
+par(mfrow = c(1,1))
+barplot(table(NewData$B4), main = "Distribution of the B4 variable")
+
+#B5
+par(mfrow = c(1,1))
+barplot(table(NewData$B5), main = "Distribution of the B5 variable")
+
+#B6
+par(mfrow = c(1,1))
+barplot(table(NewData$B6), main = "Distribution of the B6 variable")
+
+#B7
+par(mfrow = c(1,1))
+barplot(table(NewData$B7), main = "Distribution of the B7 variable")
+
+#WIEK
+par(mfrow = c(1,1))
+barplot(table(NewData$WIEK), main = "Distribution of the WIEK variable")
 
 #decomposition of variables 
 hist(dataset_salary$age)
