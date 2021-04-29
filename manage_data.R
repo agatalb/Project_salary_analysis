@@ -1,20 +1,20 @@
-file = "https://archive.ics.uci.edu/ml/machine-learning-databases/adult/adult.data"
-#data
-dataset_salary = read.csv(file, header=FALSE)
 
-names(dataset_salary) = c("age","workclass","fnlwgt", "education","educational-num","marital-status",
-                          "occupation","relationship","race","gender","capital-gain","capital-loss",
-                          "hours-per-week","native-country","income")
+#loading the data
+library(haven)
+Data = read_dta("C:\\Users\\gracz\\Dropbox\\My PC (LAPTOP-QJJ2QSFO)\\Desktop\\Z12_2016_part.dta")
+write.csv(Data, file = "Z12_2016_part.csv")
+View(Data)
 
-head(dataset_salary,10)
-View(dataset_salary)
+names(Data)
+NewData = subset(Data, select = c("WOJ","B2","B4","B5","B6","B7","WIEK","STAZ_OGOL","TD5","TWO_ROK") )
+View(NewData)
 
 
 #descriptive statistics of the data
-summary(dataset_salary)
+summary(NewData)
 
 #structure of the data
-str(dataset_salary)
+str(NewData)
 
 ###### THE DATA CLEANING PROCESS #####
 
@@ -47,3 +47,4 @@ hist(dataset_salary$`hours-per-week`)
 hist(dataset_salary$`capital-gain`)
 hist(dataset_salary$`capital-loss`)
 
+usethis::use_git()
