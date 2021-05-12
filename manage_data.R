@@ -2,7 +2,8 @@
 #loading the data
 library(haven)
 library(dplyr)
-library(haven)
+library(tibble)
+library(sjlabelled)
 library("rstudioapi")
 
 source("manage_data.R", chdir = T)
