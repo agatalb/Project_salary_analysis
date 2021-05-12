@@ -3,8 +3,12 @@
 library(haven)
 library(dplyr)
 library(haven)
+library("rstudioapi")
 
-Data = read_dta("C:\\Users\\gracz\\Dropbox\\My PC (LAPTOP-QJJ2QSFO)\\Desktop\\Z12_2016_part.dta")
+source("manage_data.R", chdir = T)
+setwd(dirname(getActiveDocumentContext()$path))  
+
+Data = read_dta("Z12_2016_part.dta")
 write.csv(Data, file = "Z12_2016_part.csv")
 View(Data)
 
