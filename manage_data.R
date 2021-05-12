@@ -1,6 +1,9 @@
 
 #loading the data
 library(haven)
+library(dplyr)
+library(haven)
+
 Data = read_dta("C:\\Users\\gracz\\Dropbox\\My PC (LAPTOP-QJJ2QSFO)\\Desktop\\Z12_2016_part.dta")
 write.csv(Data, file = "Z12_2016_part.csv")
 View(Data)
@@ -75,3 +78,7 @@ hist(dataset_salary$`hours-per-week`)
 hist(dataset_salary$`capital-gain`)
 hist(dataset_salary$`capital-loss`)
 
+#codebook
+codebook <- enframe(get_labels(NewData))
+colnames(codebook) <- c("variable_id", "item_text")
+View(codebook)
