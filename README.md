@@ -1,1 +1,1 @@
-# Project_salary_analysis
+# Analysis of wages by occupation
