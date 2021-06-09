@@ -1,10 +1,11 @@
 
 #loading the data
-library(haven)
-library(dplyr)
-library(tibble)
-library(sjlabelled)
-library("rstudioapi")
+if(!require(haven)){install.packages("haven")}
+if(!require(dplyr)){install.packages("dplyr")}
+if(!require(tibble)){install.packages("tibble")}
+if(!require(sjlabelled)){install.packages("sjlabelled")}
+if(!require(rstudioapi)){install.packages("rstudioapi")}
+
 
 source("manage_data.R", chdir = T)
 setwd(dirname(getActiveDocumentContext()$path))  
@@ -14,7 +15,26 @@ write.csv(Data, file = "Z12_2016_part.csv")
 View(Data)
 
 names(Data)
-NewData = subset(Data, select = c("WOJ","B2","B4","B5","B6","B7","WIEK","STAZ_OGOL","TD5","TWO_ROK") )
+NewData = subset(Data, select = c("WOJ","B4","B5","B6","B7","WIEK","STAZ_OGOL","TD5","TWO_ROK") )
+NewData <- NewData %>% filter(B7 == 10)
+NewData <- NewData %>% filter(TWO_ROK > 22200)
+
+# Using model.matrix
+
+
+head(NewData)
+
+NewData$WOJ <- factor(NewData$WOJ, exclude = NULL)
+
+woj_dekod <- model.matrix(~.-1, data = NewData[, c("WOJ")],
+                          contrasts.arg = list(
+                            WOJ = contrasts(NewData$WOJ, contrasts = FALSE)
+                          ))
+
+head(woj_dekod)
+
+NewData = cbind(NewData,woj_dekod)
+head(NewData)
 View(NewData)
 
 #descriptive statistics of the data
@@ -30,17 +50,15 @@ nrow(NewData)
 
 # chr -> factor/numeric variable
 
-NewData$WOJ <- as.factor(NewData$WOJ)
-NewData$B2 <- as.factor(NewData$B2)
+NewData$WIEK2 <- NewData$WIEK2^2
 NewData$B4 <- as.factor(NewData$B4)
 NewData$B5 <- as.factor(NewData$B5)
 NewData$B6 <- as.factor(NewData$B6)
 NewData$B7 <- as.factor(NewData$B7)
-NewData$WIEK <- as.factor(NewData$WIEK)
+NewData$WIEK <- as.numeric(NewData$WIEK)
 NewData$STAZ_OGOL <- as.numeric(NewData$STAZ_OGOL)
 NewData$TD5 <- as.numeric(NewData$TD5)
 NewData$TWO_ROK<- as.numeric(NewData$TWO_ROK)
-
 # how many NAs do we have?
 
 sapply(NewData,function(x) sum(is.na(x)))
