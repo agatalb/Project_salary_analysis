@@ -105,3 +105,15 @@ hist(dataset_salary$`capital-loss`)
 codebook <- enframe(get_labels(NewData))
 colnames(codebook) <- c("variable_id", "item_text")
 View(codebook)
+
+install.packages("truncreg")
+library(truncreg)
+
+m <- truncreg(TWO_ROK ~  B4 + B5 +B6 + WIEK + STAZ_OGOL + TD5, data = NewData, point = 22200, direction = "left")
+summary(m)
+
+#WYNIKI ESTYMACJI:
+# z modelu wynika B5 i B6 mogą być nieistotne, zatem należy to sprawdzić:
+m2 <- update(m, . ~ . - B5,-B6)
+pchisq(-2 * (logLik(m2) - logLik(m)), df = 2, lower.tail = FALSE)
+# wniosek: B5 i B6 są jednak istotne
