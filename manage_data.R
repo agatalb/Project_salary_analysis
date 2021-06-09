@@ -5,7 +5,7 @@ if(!require(dplyr)){install.packages("dplyr")}
 if(!require(tibble)){install.packages("tibble")}
 if(!require(sjlabelled)){install.packages("sjlabelled")}
 if(!require(rstudioapi)){install.packages("rstudioapi")}
-
+if(!require(margins)){install.packages("margins")}
 
 source("manage_data.R", chdir = T)
 setwd(dirname(getActiveDocumentContext()$path))  
@@ -26,7 +26,7 @@ head(NewData)
 
 NewData$WOJ <- factor(NewData$WOJ, exclude = NULL)
 
-woj_dekod <- model.matrix(~.-1, data = NewData[, c("WOJ")],
+woj_dekod <- model.matrix(~.-1, data = NewData[ c("WOJ")],
                           contrasts.arg = list(
                             WOJ = contrasts(NewData$WOJ, contrasts = FALSE)
                           ))
@@ -36,6 +36,7 @@ head(woj_dekod)
 NewData = cbind(NewData,woj_dekod)
 head(NewData)
 View(NewData)
+
 
 #descriptive statistics of the data
 summary(NewData)
@@ -109,7 +110,7 @@ View(codebook)
 install.packages("truncreg")
 library(truncreg)
 
-m <- truncreg(TWO_ROK ~  B4 + B5 +B6 + WIEK + STAZ_OGOL + TD5, data = NewData, point = 22200, direction = "left")
+m <- truncreg(TWO_ROK ~. - WOJ, data = NewData, point = 22200, direction = "left")
 summary(m)
 
 #WYNIKI ESTYMACJI:
@@ -117,3 +118,18 @@ summary(m)
 m2 <- update(m, . ~ . - B5,-B6)
 pchisq(-2 * (logLik(m2) - logLik(m)), df = 2, lower.tail = FALSE)
 # wniosek: B5 i B6 są jednak istotne
+
+
+#efekty cząstkowe
+install.packages("margins")
+library(margins)
+x <- lm(TWO_ROK ~  B4 + B5 +B6 + WIEK + STAZ_OGOL + TD5 + WOJ02 + WOJ04+WOJ06+WOJ08+WOJ10+WOJ12+WOJ14+WOJ16+WOJ18+WOJ20+WOJ22+WOJ24+WOJ26+WOJ28+WOJ30+WOJ32, data = NewData)
+(m <- margins(x))
+summary(m)
+
+
+
+
+
+
+
