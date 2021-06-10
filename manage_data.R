@@ -60,6 +60,23 @@ NewData$WIEK <- as.numeric(NewData$WIEK)
 NewData$STAZ_OGOL <- as.numeric(NewData$STAZ_OGOL)
 NewData$TD5 <- as.numeric(NewData$TD5)
 NewData$TWO_ROK<- as.numeric(NewData$TWO_ROK)
+
+NewData$WOJ02 <- as.factor(NewData$WOJ02)
+NewData$WOJ04 <- as.factor(NewData$WOJ04)
+NewData$WOJ06 <- as.factor(NewData$WOJ06)
+NewData$WOJ08 <- as.factor(NewData$WOJ08)
+NewData$WOJ10 <- as.factor(NewData$WOJ10)
+NewData$WOJ12 <- as.factor(NewData$WOJ12)
+NewData$WOJ14 <- as.factor(NewData$WOJ14)
+NewData$WOJ16 <- as.factor(NewData$WOJ16)
+NewData$WOJ18 <- as.factor(NewData$WOJ18)
+NewData$WOJ20 <- as.factor(NewData$WOJ20)
+NewData$WOJ22 <- as.factor(NewData$WOJ22)
+NewData$WOJ24 <- as.factor(NewData$WOJ24)
+NewData$WOJ26 <- as.factor(NewData$WOJ26)
+NewData$WOJ28 <- as.factor(NewData$WOJ28)
+NewData$WOJ30 <- as.factor(NewData$WOJ30)
+NewData$WOJ32 <- as.factor(NewData$WOJ32)
 # how many NAs do we have?
 
 sapply(NewData,function(x) sum(is.na(x)))
@@ -110,7 +127,9 @@ View(codebook)
 install.packages("truncreg")
 library(truncreg)
 
-m <- truncreg(TWO_ROK ~. - WOJ, data = NewData, point = 22200, direction = "left")
+m <- truncreg(TWO_ROK ~  B4 + B5 +B6 + WIEK + WIEK2 + STAZ_OGOL + TD5 + WOJ14, data = NewData, 
+              point = 22200, direction = "left")
+
 summary(m)
 
 #WYNIKI ESTYMACJI:
@@ -123,7 +142,7 @@ pchisq(-2 * (logLik(m2) - logLik(m)), df = 2, lower.tail = FALSE)
 #efekty cząstkowe
 install.packages("margins")
 library(margins)
-x <- lm(TWO_ROK ~  B4 + B5 +B6 + WIEK + STAZ_OGOL + TD5 + WOJ02 + WOJ04+WOJ06+WOJ08+WOJ10+WOJ12+WOJ14+WOJ16+WOJ18+WOJ20+WOJ22+WOJ24+WOJ26+WOJ28+WOJ30+WOJ32, data = NewData)
+x <- lm(TWO_ROK ~  B4 + B5 +B6 + WIEK + WIEK2 + STAZ_OGOL + TD5 + WOJ14, data = NewData)
 (m <- margins(x))
 summary(m)
 
