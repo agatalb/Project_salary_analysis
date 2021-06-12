@@ -51,7 +51,7 @@ nrow(NewData)
 
 # chr -> factor/numeric variable
 
-NewData$WIEK2 <- NewData$WIEK2^2
+NewData$WIEK2 <- NewData$WIEK^2
 NewData$B4 <- as.factor(NewData$B4)
 NewData$B5 <- as.factor(NewData$B5)
 NewData$B6 <- as.factor(NewData$B6)
